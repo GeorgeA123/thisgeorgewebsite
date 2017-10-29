@@ -1,0 +1,1120 @@
+<!--#include virtual="/header.html"-->
+
+
+<html>
+
+    <title>Ping Pong</title>
+	
+
+	<body align="center">
+		<canvas id="canvas" style = "border-style: solid; padding-top: 2%"></canvas>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
+		<script>
+
+		
+
+		var Width =  $(window).width() - 100 // so it does not mess up;
+
+		var Height = $(window).height() - 275 //takes from heading;
+
+	
+		window.onload=intiation();
+
+		var keys = [];
+
+		var Player1Score = 0;
+
+		var Player2Score = 0;
+
+		var SpeedLimit = 25;
+
+		var toggleTurn = false; //two is false
+
+		var pause = true;
+
+		var timer = 0;
+
+		var enabledtimerforPowerDuration = false;
+
+		var timerForPowerDurationOnceEnabled = 0;
+
+		var timerForShowPowerUp = 0;
+
+		var previousType = 0;		
+
+		function intiation()
+
+				{
+
+							
+
+					
+
+						
+
+						var canvas = document.getElementById("canvas");
+
+						ctx = canvas.getContext("2d");
+
+						canvas.width = Width;
+
+						canvas.height = Height;
+
+						var ballOriginal = {
+
+							Radius: 10,
+
+							X: 200,
+
+							Y: 50,
+
+														
+
+						};
+
+						var rectOriginal = {
+
+							Width: 20,
+
+							Height: 100,					
+
+							speed: 10,
+
+						}
+
+						
+
+						ctx.fillStyle ="red";
+
+						ball =  new Ball(ballOriginal.X,ballOriginal.Y, new vector2D(10,5), ballOriginal.Radius, "red", 25);
+
+						player1 = new Player(1, 20,20, rectOriginal.Width, rectOriginal.Height, new vector2D(0,rectOriginal.speed),"blue");
+
+						player2 = new Player(2,Width - 20 - rectOriginal.Width,Height -20 - rectOriginal.Height, rectOriginal.Width, rectOriginal.Height, new vector2D(0,rectOriginal.speed),"green");
+
+						var RandomNumberType = Math.floor((Math.random()*4)+1);
+
+						//1 = ball small
+
+						//2 = reduce players paddle
+
+						//3 = ball big
+
+						//4 = deflectblock
+
+						var RandomNumberX = Math.floor((Math.random()*Width)+1);
+
+						var RandomNumberY = Math.floor((Math.random()*Height)+1);
+
+						var RandomNumberHeight = 
+
+						Math.floor((Math.random()*50)+1);
+
+						var RandomNumberWidth = 
+
+						Math.floor((Math.random()*50)+1);
+
+						var RandomNumberDuration = 
+
+						Math.floor((Math.random()*1000)+1);
+
+						PowerUps = new RandomItem(RandomNumberX,RandomNumberY,RandomNumberHeight,RandomNumberWidth,RandomNumberType,RandomNumberDuration);
+
+				
+
+							
+
+
+
+		
+
+				}
+
+			
+
+			
+
+			function vector2D(x,y){this.x = x; this.y = y};
+
+			
+
+			function Player(Number,X,Y,Width,Height,Velocity,Color){
+
+					this.Number = Number;
+
+					this.X = X;
+
+					this.Y = Y;
+
+					this.Velocity = Velocity;
+
+					this.Width = Width;
+
+					this.Height = Height;
+
+					this.Color = Color;
+
+				}
+
+				
+
+				Player.prototype.draw = function(){
+
+					ctx.fillStyle = this.Color;
+
+					ctx.fillRect(this.X, this.Y,this.Width,this.Height);
+
+				
+
+				};
+
+				Player.prototype.update = function(){
+
+				
+
+					if (this.Number == 1){
+
+						if (keys[87]) {
+
+							this.Y -= this.Velocity.y;
+
+							
+
+						}
+
+						if (keys[83]) {
+
+							 this.Y += this.Velocity.y;
+
+						}
+
+					}
+
+					if (this.Number == 2){
+
+						if (keys[38]) {
+
+							this.Y -= this.Velocity.y;
+
+							
+
+						}
+
+						if (keys[40]) {
+
+							 this.Y += this.Velocity.y;
+
+						}
+
+					}
+
+					if (this.Y < 1){
+
+						this.Y = 0;
+
+					}
+
+					if (this.Y > Height- this.Height){
+
+						this.Y =  Height- this.Height;
+
+					}
+
+					extraPowerdrawUpdate(player1.X, ((player1.Height / 5) * 2)+ player1.Y);
+
+					extraPowerdrawUpdate(player2.X, ((player2.Height / 5) * 2)+ player2.Y);
+
+				};
+
+				
+
+			function Ball(X,Y,Velocity,Radius, Color, Speed)
+
+				{
+
+					this.Color = Color;
+
+					this.X = X;
+
+					this.Y = Y;
+
+					this.Velocity =  Velocity;
+
+					
+
+					this.Radius = Radius;
+
+					this.Speed = Speed
+
+					
+
+				}
+
+				Ball.prototype.draw = function(){
+
+					ctx.fillStyle = this.Color;
+
+					ctx.beginPath();
+
+					
+
+					ctx.arc(ball.X,ball.Y,this.Radius,0,2*Math.PI,true);
+
+					ctx.closePath();
+
+					ctx.fill();
+
+				};
+
+				Ball.prototype.update = function(){
+
+				
+
+					ball.X += this.Velocity.x;
+
+					ball.Y += this.Velocity.y;
+
+				};
+
+				
+
+		
+
+		
+
+		
+
+
+
+			function DrawScore(){
+
+			ctx.font ="bold 32px Arial";
+
+			ctx.fillStyle = "black";
+
+			ctx.textAlign = 'center';
+
+			ctx.fillText(Player1Score + "  -  " + Player2Score,(Width / 2)  ,50);
+
+			
+
+			}
+
+			function GameOverCheck(){
+
+			
+
+				if (ball.X > Width + ball.Radius){
+
+					Player1Score +=1	
+
+					ResetBall(1)
+
+					
+
+				}
+
+				else if (ball.X < 0 -ball.Radius){
+
+					Player2Score +=1
+
+					ResetBall(2)
+
+				}
+
+			
+
+						
+
+			}
+
+			function ResetBall(Winner){
+
+				if (Winner == 1){
+
+				ball.X = 200;
+
+				ball.Y = 50;
+
+				ball.Velocity.y = 5;
+
+				ball.Velocity.x = 5;
+
+				toggleTurn = false;
+
+				}
+
+				else{
+
+				ball.X = Width - 200;
+
+				ball.Y = 50;
+
+				ball.Velocity.y = 5;
+
+				ball.Velocity.x = -5;
+
+				toggleTurn = true;
+
+				}
+
+					player1.Height = 100;
+
+					player2.Height = 100;
+
+					ball.Radius = 10;
+
+					PowerUps.create();
+
+					enabledtimerforPowerDuration = false;
+
+					timerForPowerDurationOnceEnabled = 0;
+
+				
+
+			
+
+			}
+
+			function CollisionWithPlayer(){
+
+				
+
+					if ((ball.X - ball.Radius  < player1.Width + player1.X + 5) && (ball.X - ball.Radius > player1.X - 30) && (ball.Y > player1.Y - ball.Radius) && (ball.Y < player1.Y + player1.Height + ball.Radius)){
+
+						ball.Velocity.x = - ball.Velocity.x;
+
+						ball.Velocity.y = 0
+
+					if (ball.Velocity.x == ball.Speed){
+
+						player1.Height -=2.5;
+
+						player2.Height -=2.5;
+
+					
+
+					}
+
+						if (toggleTurn ==true){
+
+							if ((player1.Y + ((player1.Height+ 2*(ball.Radius))  / 5)) > ball.Y)
+
+							{
+
+								ball.Velocity.y -= 7 ;
+
+							
+
+							}
+
+							else if((player1.Y + (2*(player1.Height+ 2*(ball.Radius))  / 5)) > ball.Y)
+
+							{
+
+								ball.Velocity.y -= 5;
+
+								if  (ball.Velocity.x < ball.Speed){
+
+								
+
+									ball.Velocity.x += 5
+
+								}
+
+								
+
+							
+
+							}
+
+							else if(player1.Y + (3*(player1.Height+ 2*(ball.Radius))  / 5) > ball.Y)
+
+							{
+
+								if  (ball.Velocity.x < ball.Speed){
+
+								
+
+									ball.Velocity.x += 5
+
+								}
+
+								ball.Velocity.y = 0;
+
+							
+
+							}
+
+							else if(player1.Y + (4*(player1.Height+ 2*(ball.Radius))  / 5) > ball.Y)
+
+							{
+
+								ball.Velocity.y += 5;
+
+							if  (ball.Velocity.x < ball.Speed){
+
+								
+
+									ball.Velocity.x += 5;
+
+								}
+
+								
+
+							}
+
+								else if(player1.Y + (5*(player1.Height+ 2*(ball.Radius))  / 5) > ball.Y)
+
+							{
+
+								ball.Velocity.y += 7;
+
+							
+
+							}
+
+							
+
+							toggleTurn =false;
+
+							
+
+						}
+
+			
+
+					}
+
+				
+
+				
+
+					if ((ball.X  - ball.Radius - 30<  player2.X) && (ball.X + ball.Radius + 5 > player2.X) && (ball.Y > player2.Y - ball.Radius) && (ball.Y < player2.Y + player2.Height + ball.Radius)){
+
+						
+
+						if (toggleTurn == false){
+
+								ball.Velocity.y = 0
+
+							ball.Velocity.x = -ball.Velocity.x ;
+
+							if (ball.Velocity.x ==  -ball.Speed){
+
+								player1.Height -=2.5;
+
+								player2.Height -=2.5;
+
+							}
+
+							if ((player2.Y + ((player2.Height+ 2*(ball.Radius))  / 5)) > ball.Y)
+
+							{
+
+							
+
+								ball.Velocity.y -= 7;
+
+								
+
+							}
+
+							else if((player2.Y + (2*(player2.Height+ 2*(ball.Radius))  / 5)) > ball.Y)
+
+							{
+
+								ball.Velocity.y -= 5;
+
+								
+
+								if  (ball.Velocity.x > -(ball.Speed)){
+
+								
+
+									ball.Velocity.x -= 5;
+
+								}
+
+								
+
+							}
+
+							else if(player2.Y + (3*(player2.Height+ 2*(ball.Radius))  /5) > ball.Y)
+
+							{
+
+							console.log("good");
+
+								if  (ball.Velocity.x > -ball.Speed){
+
+								
+
+									ball.Velocity.x -= 5
+
+								}
+
+								ball.Velocity.y = -ball.Velocity.y;
+
+							
+
+							}
+
+							else if(player2.Y + (4*(player2.Height+ 2*(ball.Radius))  / 5) > ball.Y)
+
+							{
+
+								ball.Velocity.y += 5;
+
+								if  (ball.Velocity.x > -(ball.Speed)){
+
+									
+
+									ball.Velocity.x -= 5;
+
+								}
+
+							}
+
+							else if(player2.Y + (5*(player2.Height+ 2*(ball.Radius))  / 5) > ball.Y)
+
+							{
+
+								console.log("hello");
+
+								ball.Velocity.y += 7;
+
+							}
+
+								
+
+							toggleTurn =true
+
+							
+
+						}
+
+					;
+
+					
+
+					}
+
+			
+
+			}
+
+			function CollisionWithSide(){
+
+				if (ball.Y < 0 + ball.Radius){
+
+					ball.Velocity.y = -ball.Velocity.y;
+
+					
+
+				}
+
+				if (ball.Y > Height - ball.Radius){
+
+				
+
+					ball.Velocity.y = -ball.Velocity.y;
+
+				
+
+				}
+
+			
+
+			}
+
+		document.body.addEventListener("keydown", function (e) {
+
+			keys[e.keyCode] = true;
+
+			if (e.keyCode == 32){
+
+			
+
+				if (pause ==true){	
+
+					pause =false;
+
+					
+
+				}
+
+				else
+
+				{
+
+					pause = true;
+
+				}
+
+			}
+
+			
+
+		});
+
+		document.body.addEventListener("keyup", function (e) {
+
+			keys[e.keyCode] = false;
+
+		});
+
+				function extraPowerdrawUpdate(X,Y){
+
+					ctx.fillStyle = "yellow";
+
+					var width = 20;
+
+					var height = (0.2 * player1.Height);
+
+					
+
+					ctx.fillRect(X,Y,width,height);
+
+				}
+
+				
+
+				function RandomItem(X,Y,Height,Width,Type,Duration){	
+
+					this.X = X;
+
+					this.Y = Y;
+
+					this.Height = Height;
+
+					this.Width = Width;
+
+					this.Type = Type;
+
+					this.Duration = Duration;
+
+					
+
+				}
+
+				RandomItem.prototype.create = function(){
+
+				
+
+				var RandomNumberType = Math.floor((Math.random()*4)+1);
+
+				
+
+						//1 = ball small
+
+						//2 = reduce players paddle
+
+						//3 = ball big
+
+						//4 = deflect ball
+
+					
+
+				var RandomNumberX =  Math.floor((Math.random()*Width)+1);
+
+				var RandomNumberY =  Math.floor((Math.random()*Height)+1);
+
+				var RandomNumberHeight =  Math.floor((Math.random()*50)+1);
+
+				var RandomNumberWidth =  Math.floor((Math.random()*50)+1);
+
+				var RandomNumberDuration = 
+
+				 Math.floor((Math.random()*1000)+1);
+
+		
+
+				 PowerUps =  new RandomItem(RandomNumberX,RandomNumberY,RandomNumberHeight,RandomNumberWidth,RandomNumberType,RandomNumberDuration);
+
+				console.log(PowerUps);
+
+					
+
+				}
+
+				RandomItem.prototype.draw = function(){
+
+					if (PowerUps.Type ==1){
+
+						ctx.fillStyle ="red";
+
+					}
+
+					if (PowerUps.Type ==2){
+
+						ctx.fillStyle ="blue";
+
+					}
+
+					if (PowerUps.Type ==3){
+
+						ctx.fillStyle ="green";
+
+					}
+
+					if (PowerUps.Type ==4){
+
+						ctx.fillStyle ="black";
+
+					}
+
+					ctx.fillRect(this.X, this.Y,this.Width,this.Height);
+
+					
+
+				
+
+			
+
+
+
+				};
+
+			 
+
+				function CollisionWithPowerUp(){
+
+					if ((ball.X + ball.Radius > PowerUps.X) && (ball.X - ball.Radius < PowerUps.X +PowerUps.Width) && (ball.Y - ball.Radius < PowerUps.Y + PowerUps.Height) && (ball.Y + ball.Radius > PowerUps.Y)){
+
+					
+
+					
+
+					if (PowerUps.Type == 1){
+
+						ball.Radius = 5;
+
+						previousType = 1;
+
+					}
+
+					if (PowerUps.Type == 2){
+
+						if (toggleTurn == false){
+
+							player2.Height = 50;
+
+							
+
+						}
+
+						else
+
+						{
+
+							player1.Height = 50;
+
+
+
+						}
+
+						previousType = 2;
+
+					}
+
+					if (PowerUps.Type == 3){
+
+						ball.Radius = 15;
+
+						previousType = 3;
+
+						
+
+					}
+
+					if (PowerUps.Type == 4){
+
+						if (toggleTurn == false){
+
+							toggleTurn = true;
+
+						
+
+						}
+
+						else{
+
+							toggleTurn = false;
+
+						}
+
+						ball.Velocity.x = - ball.Velocity.x;
+
+						ball.Velocity.y = - ball.Velocity.y;
+
+						
+
+					}
+
+					enabledtimerforPowerDuration = true;
+
+					PowerUps.create();
+
+					
+
+					}
+
+					
+
+					
+
+				}
+
+			
+
+			function MainLoop(){
+
+				if (pause == false) {
+
+					
+
+					if (enabledtimerforPowerDuration == true){
+
+						console.log(PowerUps.Duration);
+
+						console.log(timerForPowerDurationOnceEnabled);
+
+						ctx.fillText( PowerUps.Duration - timerForPowerDurationOnceEnabled,(Width / 4) * 3  ,40);
+
+						
+
+						timerForPowerDurationOnceEnabled += 1;
+
+						
+
+						if (timerForPowerDurationOnceEnabled > PowerUps.Duration){
+
+							if (PowerUps.Type ==1)
+
+							{
+
+							
+
+								ball.Radius = 10;
+
+								
+
+								
+
+							}
+
+							if (PowerUps.Type ==2)
+
+							{
+
+								if (player1.Height > player2.Height){
+
+									player2.Height = player1.Height;
+
+								}
+
+								else{
+
+									player1.Height = player2.Height; 
+
+								}
+
+							
+
+								
+
+								
+
+							}
+
+						enabledtimerforPowerDuration = false;
+
+						timerForPowerDurationOnceEnabled = 0;
+
+						}
+
+					}
+
+				
+
+					timer += 1;
+
+					
+
+					ctx.clearRect(0,0,Width,Height);
+
+					CollisionWithPlayer() 
+
+					CollisionWithSide();
+
+					ball.update();
+
+					ball.draw();
+
+					player1.draw();
+
+					player2.draw();
+
+					player1.update();
+
+					player2.update();
+
+					CollisionWithPowerUp();
+
+					
+
+				
+
+					if (timer == PowerUps.Duration){
+
+						
+
+						if (PowerUps.Type == 1){
+
+							ball.radius = 10;
+
+						}
+
+						PowerUps.create();
+
+						timer = 0;
+
+						
+
+						
+
+					}
+
+					
+
+					
+
+					PowerUps.draw();
+
+					
+
+					DrawScore();  
+
+					GameOverCheck();
+
+										
+
+					if (enabledtimerforPowerDuration == true){
+
+						console.log(timerForShowPowerUp);
+
+						if (timerForShowPowerUp < 100){
+
+							
+
+							console.log("check");
+
+								if (previousType ==1) {
+
+									ctx.fillStyle = "red";
+
+									ctx.fillText("Small Ball",(Width / 2)  ,Height/2);
+
+								}
+
+								if (previousType ==2) {
+
+									ctx.fillStyle = "blue";
+
+									ctx.fillText("Small Paddle",(Width / 2)  ,Height/2);
+
+								}
+
+								if (previousType ==3) {
+
+									ctx.fillStyle = "green";
+
+									ctx.fillText("Large Ball",(Width / 2)  ,Height/2);
+
+								}
+
+									if (previousType ==4) {
+
+									ctx.fillStyle = "black";
+
+									ctx.fillText("Deflection",(Width / 2)  ,Height/2);
+
+								}
+
+								timerForShowPowerUp+=1;
+
+							}
+
+						}
+
+						else
+
+						{
+
+							
+
+							timerForShowPowerUp = 0;
+
+						}
+
+					
+
+				}	
+
+				else{
+
+					ctx.clearRect(0,0,Width,Height);
+
+					ctx.font ="bold 32px Arial";
+
+					ctx.fillStyle = "red";
+
+					ctx.textAlign = 'center';
+
+					ctx.fillText("Press SpaceBar to unpause/pause ",(Width / 2)  ,Height/2);
+
+					ctx.fillStyle = "red";
+
+					ctx.fillText("Hit red Objects to Get Small Ball",(Width / 2)  ,Height/2 + 50);
+
+					ctx.fillStyle = "blue";
+
+					ctx.fillText("Hit blue Objects to Send Small Paddle" ,(Width / 2)  ,Height/2 + 100);
+
+					ctx.fillStyle = "green";
+
+					ctx.fillText("Hit green Objects to get Large Ball" ,(Width / 2)  ,Height/2 + 150);
+
+					ctx.fillStyle = "black";
+
+					ctx.fillText("Hit black objects to reflect" ,(Width / 2)  ,Height/2 + 200);
+
+					ball.draw();
+
+					player1.draw();
+
+					player2.draw();
+
+					
+
+				}
+
+				setTimeout(MainLoop, 33.3333);
+
+			}
+
+		MainLoop();
+
+		</script>
+		
+	<noscript><meta http-equiv="refresh" content="http://georgealexander.host22.com/" /></noscript>
+
+	</body>
+
+
+
+
+
+</html>
+

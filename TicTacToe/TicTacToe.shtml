@@ -1,0 +1,281 @@
+<!--#include virtual="/header.html"-->
+
+<html>
+	<title>Tic Tac Toe</title>
+	<body align="center">
+		<canvas id = "canvas"  style = "border:5px solid #000000;"></canvas>
+		 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
+		<script>
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+		var circleTurn = true
+		var rows = 3;
+		var columns = 3;
+		var gridLocations= new Array(9); //left: 123 , middle :456 , bottom: 789
+		var index ;
+		var winCounter = new Array(1);
+		var moves = 0;
+		
+		winCounter[0] = 0;
+		winCounter[1] = 0;
+		function StartUp(){
+				
+		canvas.width = $(window).width() - 300 // so it does not mess up
+		canvas.height = $(window).height() - 300 //takes from heading
+		
+		ctx.lineWidth = 10; // LINE WIDTH
+		
+		CreateGrid(canvas, ctx);  //calls createGrid which surprisingly creates the grid
+		
+		
+		}
+		function CreateGrid(){ //gets canvas and ctx
+			ctx.strokeStyle = "999191" //the grey colour for the grid
+	
+			var rowSpacing = canvas.height / rows; //the amount of space each row has
+			var columnSpacing = canvas.width / columns; //amount of space each column has
+			
+			for (var x = 1; x < rows;x++){ //rows
+				ctx.moveTo(0, rowSpacing * x); //moves to the location according to the ratio of spacing
+				ctx.lineTo(canvas.width, rowSpacing * x)
+				ctx.stroke();				
+			}
+				for (var x = 1; x < columns ;x++){ //columns
+				ctx.moveTo( columnSpacing * x ,0); //moves to the location according to the ratio of spacing
+				ctx.lineTo( columnSpacing * x, canvas.height)
+				ctx.stroke();				
+			}
+		
+		}
+		function oColumnRow(column, row){ //cant byref variables only objects so need to create object
+		this.column = column;
+		this.row = row;
+		}
+		
+		function Clicked(x,y){ //when the canvas is clicked then this function is called
+		ColumnRow = new oColumnRow(0,0);
+		WhichGridPos(x,y,ColumnRow);
+		ConvertingIntoArray(ColumnRow);
+		var winner = new Winner();
+		
+		if (winner.symbol){
+			if (winner.symbol == "X"){
+				winCounter[1] +=1;
+			}
+			else{
+				winCounter[0] +=1;
+			}
+			window.alert("we have a winner : " + winner.symbol + " is the winner");
+			window.alert("Circle has won it: " + winCounter[0]+ " times. Crosses has won it: " + winCounter[1]+ " times.");
+			moves = 0;
+			ctx.clearRect(canvas.width, canvas.height,0,0);
+			StartUp();
+			for (var x = 1; x < 10; x++){
+				gridLocations[x] = undefined;
+				
+			}
+		}
+		
+		
+		}
+		function Winner(){
+			this.symbol;	
+			this.HorizontalCheck();
+			
+			this.VerticalCheck();
+				
+			this.DiagonalCheck();
+			
+			if (moves ==  9){
+				window.alert("we have a draw");
+				ctx.clearRect(canvas.width, canvas.height,0,0);
+				StartUp();
+				for (var x = 1; x < 10; x++){
+				gridLocations[x] = undefined;
+				
+				}
+			}
+			
+				
+		
+			
+	
+		}
+		Winner.prototype.DiagonalCheck =  function(){
+		
+		 var winner = " ";
+		 //manual check no automation
+		 if (gridLocations[5]){
+			 if (gridLocations[1] == gridLocations[5] &&  gridLocations[1] == gridLocations[9]){
+			 
+				this.symbol = gridLocations[5];
+				
+			
+			 }
+			  if (gridLocations[3] == gridLocations[5] && gridLocations[3]  == gridLocations[7]){
+				this.symbol = gridLocations[5];
+				
+			 }
+		 }
+	
+		
+		}
+		Winner.prototype.VerticalCheck =  function(){
+		
+			var counter;
+			var startOfColumn;
+			for (var x = 1; x <4; x++){ //checking each row
+				startOfColumn = x;
+			
+				if (gridLocations[startOfColumn]){ //return true if something is in it
+				
+					
+					if (gridLocations[startOfColumn] == gridLocations[startOfColumn + 3] &&  gridLocations[startOfColumn] == gridLocations[startOfColumn +6]){
+						
+						winner = gridLocations[startOfColumn] ;
+					
+						this.symbol= winner;
+						console.log(this.symbol)
+					}
+				}
+			}
+			
+		
+		}
+		
+		Winner.prototype.HorizontalCheck =  function(){
+		
+			var counter;
+			var startOfRow;
+			for (var x = 1; x <4; x++){ //checking each row
+				startOfRow = (3 * (x-1)) + 1;
+		
+				if (gridLocations[startOfRow]){ //return true if something is in it
+				
+					
+					if (gridLocations[startOfRow] == gridLocations[startOfRow + 1] &&  gridLocations[startOfRow] == gridLocations[startOfRow + 2]){
+				
+						winner = gridLocations[startOfRow] ;
+					
+						this.symbol= winner;
+					}
+				}
+			}
+			
+		
+		}
+		
+		
+		function ConvertingIntoArray(ColumnRow){ //converts the column and row into one array for easier algorithms when checking who wins
+			var symbol;
+				if (circleTurn == true){
+					symbol = "O";
+				}else{
+					symbol = "X";
+				}
+				
+			var startingNumber = ColumnRow.column //creating index for array
+			index= startingNumber + ((ColumnRow.row-1) * 3);
+			DrawAndErrorCheck(symbol)
+			gridLocations[index] = symbol;	
+			
+		}
+		
+		function WhichGridPos(x,y,ColumnRow){	
+		//check which row then which column
+
+		var rowSpacing = canvas.height / rows; //the amount of space each row has
+		var columnSpacing = canvas.width / columns; //amount of space each column has
+		
+		for (var z = 1; z < 4; z++){ //finding which Row
+			 if( y < rowSpacing * z ){
+				ColumnRow.row = z;
+				break;
+			 }	 
+		}
+		for (var z = 1; z < 4; z++){ //finding which Column
+			 if( x < columnSpacing * z ){
+				ColumnRow.column =z;
+				break;
+			 }
+		}
+
+		}
+		
+		function DrawAndErrorCheck(symbol){
+			if (gridLocations[index] == "O" || gridLocations[index] == "X" ){
+				window.alert("incorrect move");
+			}
+			else{
+				
+				var rowSpacing = canvas.height / rows; //the amount of space each row has
+				var columnSpacing = canvas.width / columns; //amount of space each column has
+				var centerOfRectX = ((ColumnRow.column -1) * columnSpacing) + (0.5 * columnSpacing);
+				var centerOfRectY = ((ColumnRow.row- 1) * rowSpacing) + (0.5 * rowSpacing);
+				var fontsize = 0;
+				ctx.textAlign="center"; 
+				if (canvas.width /  3 > 400){
+					fontsize = 40;
+					ctx.font="100px Arial";
+				}
+				else if (canvas.width /  3> 300){
+					ctx.font="80px Arial"
+					fontsize = 30
+				}
+				else if (canvas.width /  3 > 200){
+					ctx.font="100px Arial"
+					fontsize = 20
+				}
+				else if (canvas.width /  3 > 100){
+					ctx.font="40px Arial"
+					fontsize = 20
+				}
+				else{
+				ctx.font="30px Arial"
+					fontsize = 20
+				}
+				
+				
+				if (symbol == "X"){
+					ctx.fillStyle = "red";
+					
+				}else{
+					ctx.fillStyle = "blue"
+				}
+				
+				ctx.fillText(symbol ,centerOfRectX,centerOfRectY + fontsize);
+							moves += 1;
+						circleTurn = !circleTurn;
+			}
+	
+		}
+		canvas.onclick = function() {
+			
+			var canoffset = $(canvas).offset(); //working out where cursor is 
+			var x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - Math.floor(canoffset.left); //working out where cursor is 
+			var y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop - Math.floor(canoffset.top) + 1; //working out where cursor is 
+			Clicked(x,y);
+		}
+		canvas.touchend = function() {
+			
+			var canoffset = $(canvas).offset(); //working out where cursor is 
+			var x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - Math.floor(canoffset.left); //working out where cursor is 
+			var y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop - Math.floor(canoffset.top) + 1; //working out where cursor is 
+			Clicked(x,y);
+		}
+		StartUp();
+	
+
+	
+		
+		
+		</script>
+		<div align ="center">
+	
+		</div>
+	
+	</body>
+</html>
+<!-- Hosting24 Analytics Code -->
+<script type="text/javascript" src="http://stats.hosting24.com/count.php"></script>
+<!-- End Of Analytics Code -->

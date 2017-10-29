@@ -1,0 +1,14 @@
+<!--#include virtual="/header.html"-->
+
+<html>
+    <body  align = "center">
+		<title>Sorting Visual</title>
+        <canvas width="400" height="400" id = "canvas" style="border: 2px Solid #000000;">Use Chrome, Firefox or a modern version of IE </canvas>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
+        <script src="sequenceClass.js" type="text/javascript"></script>
+        <script src="main.js" type="text/javascript"></script>
+    </body>
+</html>
+<!-- Hosting24 Analytics Code -->
+<script type="text/javascript" src="http://stats.hosting24.com/count.php"></script>
+<!-- End Of Analytics Code -->

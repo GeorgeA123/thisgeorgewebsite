@@ -1,0 +1,55 @@
+<!--#include file="./header.html"-->
+
+<html> 
+        <title>Things that interest me</title>
+        <div id="rowOfPictures">
+            <div id="imageContainer">
+               <a href="ConwaysGameOfLife/ConwaysGameOfLife.shtml" >
+                   
+                   <img id="image" src="thumbnails/ConwaysGameOfLife.png">
+                    <p class="text">Conways Game Of Life (2014)</p>
+                </a>
+                
+            </div>
+            <div id="imageContainer">
+               <a href="ECGame/Physics.shtml" >
+                   <img id="image" src="thumbnails/ECGame.png">
+                    <p class="text">Dodge the particles which follow the rules of elastic collision (2015)</p>
+                </a>
+            </div>
+            <div id="imageContainer">
+               <a href="SortingVisual/Sorting.shtml" >
+                   <img id="image" src="thumbnails/SortingVisual.png">
+                    <p class="text">A visualisation of different sorting algorithms (2014)</p>
+                </a>
+            </div>
+        </div>
+        
+         <div id="rowOfPictures">
+            <div id="imageContainer">
+               <a href="elasticCollision/Physics.shtml" >
+                   <img id="image" src="thumbnails/Physics.png">
+                    <p class="text">A simple physics simulation with elastic collision (2015)</p>
+                </a>
+            </div>
+            <div id="imageContainer">
+               <a href="TicTacToe/TicTacToe.shtml" >
+                   <img id="image" src="thumbnails/TicTacToe.png">
+                    <p class="text">Tic Tac Toe (2013)</p>
+                </a>
+            </div>
+            <div id="imageContainer">
+               <a href="PingPong/CanvasGame.shtml" >
+                   <img id="image" src="thumbnails/PingPong.png">
+                    <p class="text">Ping Pong with some more features (2012)</p>
+                </a>
+            </div>
+        </div>
+        
+        
+     
+                  
+    </body>
+
+</html>
+

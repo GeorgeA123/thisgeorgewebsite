@@ -1,0 +1,17 @@
+<!--#include virtual="/header.html"-->
+
+</html>
+
+<html>
+
+	<body>
+		<title>Elastic Collision Simulation</title>
+        <canvas width="400" height="500" id = "canvas" style="border: 2px Solid #000000;" padding-top: 2%;"> Please use a good browser</canvas>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
+        <script src="ObjectClass.js" type="text/javascript"></script>
+        <script src="VectorFunctions.js" type="text/javascript"></script>
+        <script src="Physics.js" type="text/javascript"></script>
+       
+    </body>
+
+</html>

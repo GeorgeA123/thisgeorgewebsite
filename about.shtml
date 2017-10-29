@@ -1,0 +1,50 @@
+
+<html>
+    
+<!-- Mirrored from www.thisgeorge.co.uk/about.shtml by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 11 Oct 2017 12:49:56 GMT -->
+<head>
+        <meta name="description" content="...">
+		<meta name="keywords" content="George">
+		<meta name="author" content="George Alexander">
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        
+		<link rel="stylesheet" type="text/css" href="index.css">
+    </head> 
+    <body id="body">
+        <div id="head" align="center">
+            <h1> THINGS THAT INTEREST ME <i id="menuMyName"> George Alexander </i><i id=menu><a href="index.shtml" ><p>Home </a>| <a href="about.shtml" >About</a> | <a href="contact.shtml" >Contact </a> | <a href="Comment/comment.html" >Comment </a></</i>
+            </h1>
+        </div>
+        <div style="padding-bottom: 2%">
+        </div>
+      
+       
+    </body>
+   
+    
+
+<!-- Mirrored from www.thisgeorge.co.uk/about.shtml by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 11 Oct 2017 12:49:56 GMT -->
+</html>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+        <title>About me</title>
+    </head>
+    <body>
+    
+	<h class="subtitle"> Summary</h>
+    <p class="font">A second-year student from the University of Birmingham, looking for a challenging and enriching environment to use and further develop my skills and knowledge of Computer Science. My goal is to become an experienced and valued individual in your company who can contribute effectively as well as learning from others, and widening my experience.
+    </p>
+    <h class="subtitle"> Competence</h>
+    <p class="font">
+        <b>Java:</b> Created a path-finding robot; used the technique of windowed hierarchical cooperative A* via Eclipse<br>
+        <b>Haskell:</b> Used the process of Huffman coding to create a compression system<br>
+        <b>Git:</b> Employed throughout all my projects both individual and group projects.<br>
+        <b>C#:</b> Created a system which connected to a MySQL database then performed data manipulation<br>
+        <b>OCaml:</b> Completed a module solely based around OCaml in which I created many programs based around list handling<br>
+        <b>SQL:</b> Used SQL commands on MySQL databases to create, manage and extract a relational database with several tables<br>
+        <b>WWW Technologies:</b> Created and host my own website (www.thisgeorge.co.uk) which shows use of JavaScript, jQuery, HTML, CSS and PHP<br>
+        </p>
+    
+
+</body></html>

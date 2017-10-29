@@ -1,0 +1,19 @@
+<!--#include virtual="/header.html"-->
+<html>
+
+<head>
+		<title>
+		</title>
+	</head>
+	<body align="center">
+	<p id = "info" >MiniMax TicTacToe With AlphaBeta Pruning (Turns may take 10 seconds)</p>
+		<canvas width="400" height="500" id = "canvas" style="border: 2px Solid #000000;" padding-top: 2%;" > Please use a good browser</canvas>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
+		<script src="State.js" type="text/javascript"></script>
+		<script src="Game.js" type="text/javascript"></script>
+		<script src="AI.js" type="text/javascript"></script>
+		<script src="TicTacToe.js" type="text/javascript"></script>
+	</body>
+
+
+</html>

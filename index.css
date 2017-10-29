@@ -1,0 +1,133 @@
+#head{
+
+white-space: normal;
+    position:relative;
+   
+	margin-right:0;
+    text-align:center;
+    text-decoration: none;
+    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, AppleGothic, sans-serif;   
+    font-size: 24px;
+    
+     color:bisque ;
+
+}
+
+#body{
+    background-color:  #262626;
+}
+#menu{
+        letter-spacing: 3px;
+        padding-left: 25%;
+        padding-left: 25%;
+    	font-size: 16px;
+        color:bisque;
+    
+}#menuMyName{
+        letter-spacing: 3px;
+        padding-left: 4%;
+    	font-size: 16px;
+        color:bisque;
+}
+#body{
+        letter-spacing: 2px;
+    
+    
+        padding-left: 30;
+    	font-size: 16px;
+        color:bisque;
+}
+
+#imageContainer{
+    float: left;
+    width: 33%;
+    max-width: 33%; 
+    max-height: 33%%;
+    overflow: inherit;
+    white-space: nowrap;
+    object-fit: contain;
+    border:0;
+   
+}
+.text{
+	white-space: normal;
+    position:relative;
+    bottom: 200px;
+	width: 100%;
+	height:50px;
+	margin-right:0;
+    text-align:center;
+    text-decoration: none;
+    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, AppleGothic, sans-serif;   
+    font-size: 24px;
+    
+     color:bisque ;
+}
+.subtitle{
+    text-decoration: none;
+    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, AppleGothic, sans-serif;   
+    font-size: 30px;
+    font-weight: bold;
+    color:bisque ;
+
+}
+.font{
+
+    text-decoration: none;
+    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, AppleGothic, sans-serif;   
+    font-size: 18px;
+    padding-left:20%;
+    padding-right:20%;
+     color:bisque ;
+
+}
+
+
+#imageContainer .text{
+      visibility:hidden;
+
+}
+#imageContainer:hover .text{
+     opacity: 1.0;
+     transition: opacity .45s ease-in-out;
+    -moz-transition: opacity .45s ease-in-out;
+    -webkit-transition: opacity .45s ease-in-out;
+    
+    visibility:visible;
+  
+    
+    
+}
+#imageContainer:hover #image{
+    opacity: 0.1;
+    transition: opacity .45s ease-in-out;
+    -moz-transition: opacity .45s ease-in-out;
+    -webkit-transition: opacity .45s ease-in-out;
+    
+    
+}
+
+#rowOfPictures{ 
+    padding-top: 5%;
+    padding-left: 14%;
+    padding-right: 14%;
+    padding-bottom: 15%;
+    
+}
+#image{
+	
+    width:100%;
+    height:35%;
+    border:0;  
+
+}
+
+
+a { 
+    
+        color: inherit;
+        text-decoration: none;
+        padding: 0px 10px;
+        word-wrap: normal;
+        display: inline-block;
+} 
